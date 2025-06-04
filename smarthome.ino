@@ -59,19 +59,24 @@ IRHitachiAc344 ac(kIrLedPin, 0);       // Hitachi AC model-0
 /* ─────────── 風扇 raw (完全照舊) ── */
 #include "ir_raw_fan_ac.h"      // 內含 kFAN_***_SYM 與 AC raw tables
 
+void sendFanCommand(uint16_t symbol) {
+    for (uint8_t i = 0; i < 3; i++) {
+        irsend.sendSymphony(symbol, 12);
+        delay(100);
+    }
+}
 void fanPowerToggleOnce() {
-  for (uint8_t i=0;i<3;i++){ irsend.sendSymphony(kFAN_PWR_SYM,12); delay(100);}
+  sendFanCommand(kFAN_PWR_SYM);
 }
 void fanSpeedToggleOnce() {
-  for (uint8_t i=0;i<3;i++){ irsend.sendSymphony(kFAN_SPEED_SYM,12); delay(100);}
+  sendFanCommand(kFAN_SPEED_SYM);
 }
 void fanTimerToggleOnce() {
-  for (uint8_t i=0;i<3;i++){ irsend.sendSymphony(kFAN_TIMER_SYM,12);delay(100);}
+  sendFanCommand(kFAN_TIMER_SYM);
 }
 void fanSwingToggleOnce() {
-  for (uint8_t i=0;i<3;i++){ irsend.sendSymphony(kFAN_SWING_SYM,12);delay(100);}
+  sendFanCommand(kFAN_SWING_SYM);
 }
-
 /* ─────────── 冷氣狀態暫存 ────── */
 uint8_t acTemp   = 26;          // 18~32 °C
 uint8_t acFanIdx = 0;           // 0~3 依下表
